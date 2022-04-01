@@ -1,0 +1,9 @@
+{
+    "isTutorialDone": false,
+    "isSoundMuted": false,
+    "speed": 20.0,
+    "travelTime": 3.231605291366577,
+    "currentScore": 64,
+    "lastScore": 64,
+    "highScore": 64
+}
