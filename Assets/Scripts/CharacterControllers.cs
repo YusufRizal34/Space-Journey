@@ -45,11 +45,16 @@ public class CharacterControllers : MonoBehaviour
 
     [Header("CHARACTER DEAD")]
     [HideInInspector] public bool isDead = false;
+    public GameObject deadExplotion;
+
+    [Header("CHARACTER ANIMATION")]
+    private Animator _animation;
 
     private void Start()
     {
         CurrentSpeed = initialSpeed;
         currentPosition = Positions.CENTER;
+        _animation = GetComponent<Animator>();
 	}
 
     private void Update() {
@@ -89,10 +94,12 @@ public class CharacterControllers : MonoBehaviour
         if(Input.GetKeyDown("left")){
             if(currentPosition != Positions.LEFT){
                 if(currentPosition == Positions.RIGHT){
+                    _animation.Play("Turn Right");
                     currentPosition = Positions.CENTER;
                     currentXPosition = 0;
                 }
                 else if(currentPosition == Positions.CENTER){
+                    _animation.Play("Turn Right");
                     currentPosition = Positions.LEFT;
                     currentXPosition = -fixedPosition;
                 }
@@ -101,10 +108,12 @@ public class CharacterControllers : MonoBehaviour
         else if(Input.GetKeyDown("right")){
             if(currentPosition != Positions.RIGHT){
                 if(currentPosition == Positions.LEFT){
+                    _animation.Play("Turn Left");
                     currentPosition = Positions.CENTER;
                     currentXPosition = 0;
                 }
                 else if(currentPosition == Positions.CENTER){
+                    _animation.Play("Turn Left");
                     currentPosition = Positions.RIGHT;
                     currentXPosition = fixedPosition;
                 }
@@ -113,6 +122,7 @@ public class CharacterControllers : MonoBehaviour
     }
 
     public void Dead(){
+        // Instantiate(deadExplotion, transform.position, transform.rotation);
         this.isDead = true;
     }
 

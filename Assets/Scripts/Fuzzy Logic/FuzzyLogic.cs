@@ -81,10 +81,7 @@ public class FuzzyLogic : MonoBehaviour
             denominator += aPredicate[i];
         }
 
-        print("result : " + numerator + "/" + denominator);
-
         result = numerator/denominator;
-
         return result;
     }
 }
@@ -105,23 +102,4 @@ public enum Condition{
     LOW,
     MODERATE,
     HIGH,
-}
-
-public enum Speeds{
-    LOW,
-    MODERATE,
-    HIGH,
-}
-
-public enum Scores{
-    LOW,
-    MODERATE,
-    HIGH,
-}
-
-public enum Output{
-    LOW,
-    NORMAL,
-    HIGH,
-    VERYHIGH,
 }

@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     #region CHARACTER CONTROLLER
     private GameObject player;
     private CharacterControllers characterControllers;
-    private Stopwatch stopwatch;
     [SerializeField] private float characterDeadTime = 2f; ///DEFAULT IS 2
     #endregion
 
@@ -94,13 +93,10 @@ public class GameManager : MonoBehaviour
                 highScoreText.text      =  ShowHighScore().ToString();
             break;
             case CanvasType.PlayScene :
-                stopwatch = FindObjectOfType<Stopwatch>();
-                stopwatch.StartStopwatch();
                 player = GameObject.FindWithTag("Player");
                 mainCamera = GameObject.FindWithTag("MainCamera").transform;
                 currentScoreText = GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 characterControllers = player.gameObject.GetComponent<CharacterControllers>();
-                characterControllers.acceleration = AccelerationController.Instance.GetAccelerationLevel(ShowLastScore());
 		        gameCamera1 = mainCamera.gameObject.GetComponent<CinemachineVirtualCamera>();
                 gameCamera1.LookAt = characterControllers.transform;
                 gameCamera1.Follow = characterControllers.transform;
@@ -155,12 +151,11 @@ public class GameManager : MonoBehaviour
     
     public async void PlayerDead(){
         characterControllers.Dead();
-        Stopwatch.Instance.EndStopwatch();
 
-        while (characterDeadTime > 0){
-            characterDeadTime -= Time.deltaTime;
-            await Task.Yield();
-        }
+        // while (characterDeadTime > 0){
+        //     characterDeadTime -= Time.deltaTime;
+        //     await Task.Yield();
+        // }
         
         AddLastScore(currentScore);
         AddCurrentScore(currentScore);
