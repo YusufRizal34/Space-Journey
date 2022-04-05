@@ -5,7 +5,18 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class CurvedWorld : MonoBehaviour {
 
-    public Vector3 Curvature = new Vector3(0, 0.5f, 0);
+    private static CurvedWorld _instance;
+
+    public static CurvedWorld Instance{
+        get{
+            if(_instance == null){
+                _instance = FindObjectOfType<CurvedWorld>();
+            }
+            return _instance;
+        }
+    }
+
+    public Vector3 Curvature = new Vector3(0, 0, 0);
     public float Distance = 0;
 
     [Space]

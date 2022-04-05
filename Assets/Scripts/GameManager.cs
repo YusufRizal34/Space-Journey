@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
+using System.Collections;
 using Cinemachine;
 
 public enum CanvasType{
@@ -37,6 +37,12 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     private CharacterControllers characterControllers;
     [SerializeField] private float characterDeadTime = 2f; ///DEFAULT IS 2
+    private int deadCount = 0;
+    #endregion
+
+    [Header("CURVED WORLD CONTROLLER")]
+    #region CURVED WORLD CONTROLLER
+    public float changeCurvedWorldTime = 20f;
     #endregion
 
     [Header("UI ITEM CONTROLLER")]
@@ -79,6 +85,10 @@ public class GameManager : MonoBehaviour
 
     private void Update(){
         UIUpdate();
+    }
+
+    private void LateUpdate(){
+        StartCoroutine(ChangeCurvedWorld());
     }
 
     private void SwitchCanvas(){
@@ -141,6 +151,11 @@ public class GameManager : MonoBehaviour
         // }
     }
 
+    private IEnumerator ChangeCurvedWorld(){
+        CurvedWorld.Instance.Curvature.z = UnityEngine.Random.Range(0,10);
+        yield return new WaitForSeconds(changeCurvedWorldTime);
+    }
+
     public void LoadMainMenu(){
         SceneManager.LoadScene("MainMenu");
 	}
@@ -150,19 +165,21 @@ public class GameManager : MonoBehaviour
 	}
     
     public async void PlayerDead(){
-        characterControllers.Dead();
+        if(deadCount < 1){
+            characterControllers.Dead();
+            deadCount++;
+        }
+        
 
-        // while (characterDeadTime > 0){
-        //     characterDeadTime -= Time.deltaTime;
-        //     await Task.Yield();
-        // }
+        while (characterDeadTime > 0){
+            characterDeadTime -= Time.deltaTime;
+            await Task.Yield();
+        }
         
         AddLastScore(currentScore);
         AddCurrentScore(currentScore);
         AddHighScore(currentScore);
         AddLastSpeed(characterControllers.currentSpeed);
-
-        player.SetActive(false);
 
         await Task.Yield();
         LoadScene("Result");

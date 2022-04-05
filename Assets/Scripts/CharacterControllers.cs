@@ -8,6 +8,7 @@ public class CharacterControllers : MonoBehaviour
 {
 	[Header("CHARACTER CONTROLLER")]
 	public Positions currentPosition;
+    private Rigidbody rb;
     private float currentXPosition = 0;
 
     public enum Positions{
@@ -46,6 +47,7 @@ public class CharacterControllers : MonoBehaviour
     [Header("CHARACTER DEAD")]
     [HideInInspector] public bool isDead = false;
     public GameObject deadExplotion;
+    public Transform destructionSpot;
 
     [Header("CHARACTER ANIMATION")]
     private Animator _animation;
@@ -54,6 +56,7 @@ public class CharacterControllers : MonoBehaviour
     {
         CurrentSpeed = initialSpeed;
         currentPosition = Positions.CENTER;
+        rb = GetComponent<Rigidbody>();
         _animation = GetComponent<Animator>();
 	}
 
@@ -81,13 +84,40 @@ public class CharacterControllers : MonoBehaviour
     #if UNITY_EDITOR || UNITY_STANDALONE
         //USING KEYBOARD
         KeyboardMovement();
-    #else
-        ///USING ANDROID
-        // AndroidMovement();
     #endif
 
         Vector3 moving = new Vector3((currentXPosition - transform.position.x) * dodgeSpeed, 0, currentSpeed);
         transform.Translate(moving * Time.deltaTime, Space.World);
+    }
+
+    public void TurnLeft(){
+        if(currentPosition != Positions.LEFT){
+            if(currentPosition == Positions.RIGHT){
+                _animation.Play("Turn Right");
+                currentPosition = Positions.CENTER;
+                currentXPosition = 0;
+            }
+            else if(currentPosition == Positions.CENTER){
+                _animation.Play("Turn Right");
+                currentPosition = Positions.LEFT;
+                currentXPosition = -fixedPosition;
+            }
+        }
+    }
+
+    public void TurnRight(){
+        if(currentPosition != Positions.RIGHT){
+            if(currentPosition == Positions.LEFT){
+                _animation.Play("Turn Left");
+                currentPosition = Positions.CENTER;
+                currentXPosition = 0;
+            }
+            else if(currentPosition == Positions.CENTER){
+                _animation.Play("Turn Left");
+                currentPosition = Positions.RIGHT;
+                currentXPosition = fixedPosition;
+            }
+        }
     }
 
     private void KeyboardMovement(){
@@ -122,8 +152,9 @@ public class CharacterControllers : MonoBehaviour
     }
 
     public void Dead(){
-        // Instantiate(deadExplotion, transform.position, transform.rotation);
+        Instantiate(deadExplotion, destructionSpot);
         this.isDead = true;
+        rb.isKinematic = false;
     }
 
     private void OnCollisionEnter(Collision other){

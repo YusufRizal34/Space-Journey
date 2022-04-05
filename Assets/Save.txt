@@ -1,8 +1,8 @@
 {
     "isTutorialDone": false,
     "isSoundMuted": false,
-    "speed": 125.0,
-    "currentScore": 230,
-    "lastScore": 230,
-    "highScore": 230
+    "speed": 45.0,
+    "currentScore": 241,
+    "lastScore": 241,
+    "highScore": 1695
 }
