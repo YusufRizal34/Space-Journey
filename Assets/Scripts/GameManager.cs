@@ -7,7 +7,6 @@ using System.Collections;
 using Cinemachine;
 
 public enum CanvasType{
-    SplashScene,
     MainMenu,
     PlayScene,
     ResultScene,
@@ -87,17 +86,10 @@ public class GameManager : MonoBehaviour
         UIUpdate();
     }
 
-    private void LateUpdate(){
-        StartCoroutine(ChangeCurvedWorld());
-    }
-
     private void SwitchCanvas(){
         UserDataManager.Load();
 
         switch(type){
-            case CanvasType.SplashScene :
-                UserDataManager.Remove();
-            break;
             case CanvasType.MainMenu :
                 highScoreText           = GameObject.FindWithTag("HighScore").GetComponent<Text>();
                 highScoreText.text      =  ShowHighScore().ToString();
@@ -115,18 +107,18 @@ public class GameManager : MonoBehaviour
                 currentScoreText        =  GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 currentScoreText.text   =  ShowCurrentScore().ToString();
                 AddHighScore(ShowCurrentScore());
-                FuzzySet speed = new FuzzySet(
-                    new Shapes(speedGrade, speedGradeCondition),
-                    new Shapes(speedTriangle, speedTriangleCondition),
-                    new Shapes(speedRevGrade, speedRevGradeCondition)
-                );
-                FuzzySet score = new FuzzySet(
-                    new Shapes(scoreGrade, scoreGradeCondition),
-                    new Shapes(scoreTriangle, scoreTriangleCondition),
-                    new Shapes(scoreRevGrade, scoreRevGradeCondition)
-                );
-                // // FuzzyLogic.Instance.FuzzyTest(speed, score, ShowLastSpeed(), ShowCurrentScore());
-                FuzzyLogic.Instance.FuzzyTest(speed, score, speedVal, scoreVal);
+                // FuzzySet speed = new FuzzySet(
+                //     new Shapes(speedGrade, speedGradeCondition),
+                //     new Shapes(speedTriangle, speedTriangleCondition),
+                //     new Shapes(speedRevGrade, speedRevGradeCondition)
+                // );
+                // FuzzySet score = new FuzzySet(
+                //     new Shapes(scoreGrade, scoreGradeCondition),
+                //     new Shapes(scoreTriangle, scoreTriangleCondition),
+                //     new Shapes(scoreRevGrade, scoreRevGradeCondition)
+                // );
+                // FuzzyLogic.Instance.FuzzyTest(speed, score, ShowLastSpeed(), ShowCurrentScore());
+                // FuzzyLogic.Instance.FuzzyTest(speed, score, speedVal, scoreVal);
             break;
             default :
             break;
@@ -134,21 +126,12 @@ public class GameManager : MonoBehaviour
     }
 
     private void UIUpdate(){
-        if(type == CanvasType.SplashScene){
-            Invoke("LoadMainMenu", 5f);
-        }
-        // else if(type == CanvasType.MainMenu){
-            
-        // }
-        else if(type == CanvasType.PlayScene){
+        if(type == CanvasType.PlayScene){
             if(GameManager.Instance.characterControllers.isDead != true){
                 currentScoreText.text = currentScore.ToString();
                 currentScore = (int)player.transform.position.z;
             }
         }
-        // else if(type == CanvasType.ResultScene){
-            
-        // }
     }
 
     private IEnumerator ChangeCurvedWorld(){

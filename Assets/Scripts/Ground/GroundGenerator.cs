@@ -18,7 +18,7 @@ public class GroundGenerator : MonoBehaviour
     public Camera mainCamera;
     public Transform startPoint;
     public float zStartPoint = 10f; ///DEFAULT 10
-    public float yStartPoint = 5f; ///DEFAULT 10
+    public float yStartPoint = 5f; ///DEFAULT 5f
 
     [Header("SPAWN GROUND")]
     public PlatformTile[] tilePrefab;
@@ -26,17 +26,17 @@ public class GroundGenerator : MonoBehaviour
     List<PlatformTile> spawnedTiles = new List<PlatformTile>();
     public int maxTile = 3; ///DEFAULT 3
 
-    private void Awake() {
+    private void Awake(){
         mainCamera = FindObjectOfType<Camera>();
     }
 
     void Start()
     {
-        startPoint = GameObject.FindWithTag("Player").transform;
+        startPoint = GameObject.FindObjectOfType<CharacterControllers>().transform;
         Vector3 spawnPosition = startPoint.position - new Vector3(0, yStartPoint, zStartPoint);
 
         //SPAWN EARLY TILE FIRST
-        for (int i = 0; i < earlyTilePrefab.Length; i++) {
+        for (int i = 0; i < earlyTilePrefab.Length; i++){
             spawnPosition -= earlyTilePrefab[i].startPoint.localPosition;
             PlatformTile spawnedTile = Instantiate(earlyTilePrefab[i], spawnPosition, Quaternion.identity) as PlatformTile;
             spawnPosition = spawnedTile.endPoint.position;
@@ -44,7 +44,7 @@ public class GroundGenerator : MonoBehaviour
         }
 
         //SPAWN NEXT TILE
-        for (int i = 0; i < tilePrefab.Length; i++) {
+        for (int i = 0; i < tilePrefab.Length; i++){
             spawnPosition -= tilePrefab[i].startPoint.localPosition;
             PlatformTile spawnedTile = Instantiate(tilePrefab[i], spawnPosition, Quaternion.identity) as PlatformTile;
             spawnPosition = spawnedTile.endPoint.position;
@@ -71,9 +71,11 @@ public class GroundGenerator : MonoBehaviour
     }
 
     void SpawnTile(PlatformTile tileTmp){
-        // tileTmp.ChangeObjectRotation();
         tileTmp.gameObject.SetActive(false);
         tileTmp.transform.position = spawnedTiles[spawnedTiles.Count - 1].endPoint.position - tileTmp.startPoint.localPosition;
-        // tileTmp.SpawnObject();
+        if(tileTmp.obstacle1 != null && tileTmp.obstacle2 != null){
+            tileTmp.SpawnObstacle(tileTmp.obstacle1, tileTmp.obstacle1Position);
+            tileTmp.SpawnObstacle(tileTmp.obstacle2, tileTmp.obstacle2Position);
+        }
     }
 }

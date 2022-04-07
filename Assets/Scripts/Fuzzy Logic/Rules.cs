@@ -17,16 +17,16 @@ public class Rules : MonoBehaviour
 
     public float RulesCheck(Condition speed, Condition score){
         if(speed is Condition.LOW && score is Condition.LOW){
-            return 0.3f;
+            return 0f;
         }
         else if(speed is Condition.LOW && score is Condition.MODERATE){
-            return 0.3f;
+            return 0f;
         }
         else if(speed is Condition.LOW && score is Condition.HIGH){
-            return 0.3f;
+            return 0f;
         }
         else if(speed is Condition.MODERATE && score is Condition.LOW){
-            return 0.3f;
+            return 0f;
         }
         else if(speed is Condition.MODERATE && score is Condition.MODERATE){
             return 0.5f;
@@ -38,10 +38,10 @@ public class Rules : MonoBehaviour
             return 0.5f;
         }
         else if(speed is Condition.HIGH && score is Condition.MODERATE){
-            return 0.9f;
+            return 1f;
         }
         else{
-            return 0.9f;
+            return 1f;
         }
     }
 }

@@ -407,7 +407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 500106766}
   - component: {fileID: 500106767}
-  - component: {fileID: 500106769}
+  - component: {fileID: 500106768}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ac5867a11c3d1418ce1d251808baaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  type: 1
   characterDeadTime: 5
   changeCurvedWorldTime: 10
   speedVal: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   scoreRevGradeCondition: 0
---- !u!114 &500106769
+--- !u!114 &500106768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -500,8 +500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f22b578bd3cb4b4bbf81a5ec2fdecd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Curvature: {x: 0, y: 0.6, z: 0}
-  Distance: 250
+  Curvature: {x: 0, y: 0.35, z: 0}
+  Distance: 100
   CurvatureScaleUnit: 1000
 --- !u!1 &705507993
 GameObject:
@@ -1201,7 +1201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6097592626627693041, guid: 731353147208f7145866d3c823647c07, type: 3}
       propertyPath: initialSpeed
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6097592626627693041, guid: 731353147208f7145866d3c823647c07, type: 3}
       propertyPath: deadExplotion
@@ -1241,7 +1241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6474174177593902509, guid: 731353147208f7145866d3c823647c07, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 7.1
       objectReference: {fileID: 0}
     - target: {fileID: 6474174177593902509, guid: 731353147208f7145866d3c823647c07, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1310,13 +1310,17 @@ MonoBehaviour:
   tilePrefab:
   - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
   - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
+  - {fileID: 6840762314145334378, guid: f5d9decaddcfd074c8bbb1e9734ad6a9, type: 3}
+  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
+  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
+  - {fileID: 6840762314145334378, guid: f5d9decaddcfd074c8bbb1e9734ad6a9, type: 3}
+  earlyTilePrefab:
+  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
+  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
+  - {fileID: 850925084221941671, guid: 7e0df647c6346f84eaaff122ba786df7, type: 3}
+  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
   - {fileID: 1363783628922944974, guid: 3d236ebdcae3a3c4288c20a3588cd928, type: 3}
-  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
-  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
-  - {fileID: 1439260692, guid: 80de6e41ac0b7d943a6e3b2d2d267ec6, type: 3}
-  - {fileID: 1363783628922944974, guid: 3d236ebdcae3a3c4288c20a3588cd928, type: 3}
-  earlyTilePrefab: []
-  maxTile: 5
+  maxTile: 4
 --- !u!1 &476508053519813739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,7 +1408,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5485917875892927436}
   m_LocalRotation: {x: 0.09981269, y: 0.000000016005378, z: -0.0000000016055576, w: 0.99500626}
-  m_LocalPosition: {x: 0, y: 5.32, z: -1.8500004}
+  m_LocalPosition: {x: 0, y: 12.42, z: -1.8500004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3263417084851502499}
@@ -1535,7 +1539,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 0.5625, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1569,7 +1573,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5485917876642622413}
   m_LocalRotation: {x: 0.09981269, y: 0.000000016005378, z: -0.0000000016055576, w: 0.99500626}
-  m_LocalPosition: {x: 0, y: 5.32, z: -1.8500004}
+  m_LocalPosition: {x: 0, y: 12.42, z: -1.8500004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5485917876706359409}

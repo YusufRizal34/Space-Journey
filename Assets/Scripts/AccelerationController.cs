@@ -50,9 +50,6 @@ public class AccelerationController : MonoBehaviour
         else if(value <= highResult){
             level = AccelerationLevel.HIGH;
         }
-        else if(value > highResult){
-            level = AccelerationLevel.VERYHIGH;
-        }
 
         return ChangeAccelerationLevel(level);
     }
@@ -67,10 +64,7 @@ public class AccelerationController : MonoBehaviour
         else if(level == AccelerationLevel.HIGH){
             return highAcceleration;
         }
-        else if(level == AccelerationLevel.VERYHIGH){
-            return veryHighAcceleration;
-        }
 
-        return 0;
+        return 1;
     }
 }
