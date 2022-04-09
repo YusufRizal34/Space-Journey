@@ -15,33 +15,37 @@ public class Rules : MonoBehaviour
         }
     }
 
+    public float low = 0f;
+    public float moderate = 0.5f;
+    public float high = 1f;
+
     public float RulesCheck(Condition speed, Condition score){
         if(speed is Condition.LOW && score is Condition.LOW){
-            return 0f;
+            return low;
         }
         else if(speed is Condition.LOW && score is Condition.MODERATE){
-            return 0f;
+            return low;
         }
         else if(speed is Condition.LOW && score is Condition.HIGH){
-            return 0f;
+            return low;
         }
         else if(speed is Condition.MODERATE && score is Condition.LOW){
-            return 0f;
+            return low;
         }
         else if(speed is Condition.MODERATE && score is Condition.MODERATE){
-            return 0.5f;
+            return moderate;
         }
         else if(speed is Condition.MODERATE && score is Condition.HIGH){
-            return 0.5f;
+            return moderate;
         }
         else if(speed is Condition.HIGH && score is Condition.LOW){
-            return 0.5f;
+            return moderate;
         }
         else if(speed is Condition.HIGH && score is Condition.MODERATE){
-            return 1f;
+            return high;
         }
         else{
-            return 1f;
+            return high;
         }
     }
 }

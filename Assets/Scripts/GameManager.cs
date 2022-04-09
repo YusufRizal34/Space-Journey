@@ -7,6 +7,7 @@ using System.Collections;
 using Cinemachine;
 
 public enum CanvasType{
+    SplashScreen,
     MainMenu,
     PlayScene,
     ResultScene,
@@ -30,7 +31,6 @@ public class GameManager : MonoBehaviour
     public CanvasType type;
     #endregion
 
-
     [Header("CHARACTER CONTROLLER")]
     #region CHARACTER CONTROLLER
     private GameObject player;
@@ -44,12 +44,19 @@ public class GameManager : MonoBehaviour
     public float changeCurvedWorldTime = 20f;
     #endregion
 
-    [Header("UI ITEM CONTROLLER")]
-    #region UI ITEM CONTROLLER
+    [Header("DATA CONTROLLER")]
+    #region DATA CONTROLLER
+    public bool isDataLoaded = false;
+    #endregion
+
+    [Header("UI CONTROLLER")]
+    #region UI CONTROLLER
     private int currentScore;
+    private float loadingProgress = 1;
 
     private Text highScoreText;
     private Text currentScoreText;
+    private Slider loadingSlider;
     #endregion
 
     [Header("CUTSCENE CONTROLLER")]
@@ -78,24 +85,32 @@ public class GameManager : MonoBehaviour
 
     private void Awake(){
         Application.targetFrameRate = 120;
-
         SwitchCanvas();
     }
+
+    // private void Start() {
+        
+    // }
 
     private void Update(){
         UIUpdate();
     }
 
     private void SwitchCanvas(){
-        UserDataManager.Load();
-
+        // UserDataManager.Remove();
         switch(type){
+            case CanvasType.SplashScreen :
+                loadingSlider = GameObject.FindWithTag("LoadingSlider").GetComponent<Slider>();
+                StartCoroutine(UserDataManager.LoadFromCloud(() => {
+                    if(loadingSlider.value == 0) LoadScene("MainMenu");
+                }));
+            break;
             case CanvasType.MainMenu :
-                highScoreText           = GameObject.FindWithTag("HighScore").GetComponent<Text>();
-                highScoreText.text      =  ShowHighScore().ToString();
+                highScoreText       =  GameObject.FindWithTag("HighScore").GetComponent<Text>();
+                highScoreText.text  = ShowHighScore().ToString();
             break;
             case CanvasType.PlayScene :
-                player = GameObject.FindWithTag("Player");
+                player = FindObjectOfType<CharacterControllers>().gameObject;
                 mainCamera = GameObject.FindWithTag("MainCamera").transform;
                 currentScoreText = GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 characterControllers = player.gameObject.GetComponent<CharacterControllers>();
@@ -106,18 +121,18 @@ public class GameManager : MonoBehaviour
             case CanvasType.ResultScene :
                 currentScoreText        =  GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 currentScoreText.text   =  ShowCurrentScore().ToString();
-                AddHighScore(ShowCurrentScore());
-                // FuzzySet speed = new FuzzySet(
-                //     new Shapes(speedGrade, speedGradeCondition),
-                //     new Shapes(speedTriangle, speedTriangleCondition),
-                //     new Shapes(speedRevGrade, speedRevGradeCondition)
-                // );
-                // FuzzySet score = new FuzzySet(
-                //     new Shapes(scoreGrade, scoreGradeCondition),
-                //     new Shapes(scoreTriangle, scoreTriangleCondition),
-                //     new Shapes(scoreRevGrade, scoreRevGradeCondition)
-                // );
-                // FuzzyLogic.Instance.FuzzyTest(speed, score, ShowLastSpeed(), ShowCurrentScore());
+                FuzzySet speed = new FuzzySet(
+                    new Shapes(speedGrade, speedGradeCondition),
+                    new Shapes(speedTriangle, speedTriangleCondition),
+                    new Shapes(speedRevGrade, speedRevGradeCondition)
+                );
+                FuzzySet score = new FuzzySet(
+                    new Shapes(scoreGrade, scoreGradeCondition),
+                    new Shapes(scoreTriangle, scoreTriangleCondition),
+                    new Shapes(scoreRevGrade, scoreRevGradeCondition)
+                );
+                FuzzyLogic.Instance.FuzzyTest(speed, score, ShowLastSpeed(), ShowCurrentScore());
+                UserDataManager.Save(true);
                 // FuzzyLogic.Instance.FuzzyTest(speed, score, speedVal, scoreVal);
             break;
             default :
@@ -126,22 +141,24 @@ public class GameManager : MonoBehaviour
     }
 
     private void UIUpdate(){
-        if(type == CanvasType.PlayScene){
-            if(GameManager.Instance.characterControllers.isDead != true){
+        if(type == CanvasType.SplashScreen){
+            Loading();
+        }
+        else if(type == CanvasType.PlayScene){
+            if(characterControllers.isDead != true){
                 currentScoreText.text = currentScore.ToString();
                 currentScore = (int)player.transform.position.z;
             }
         }
     }
 
-    private IEnumerator ChangeCurvedWorld(){
-        CurvedWorld.Instance.Curvature.z = UnityEngine.Random.Range(0,10);
-        yield return new WaitForSeconds(changeCurvedWorldTime);
+    private async void Loading(){
+        while(loadingProgress > 0){
+            loadingProgress -= 0.001f;
+            loadingSlider.value = loadingProgress;
+            await Task.Yield();
+        }
     }
-
-    public void LoadMainMenu(){
-        SceneManager.LoadScene("MainMenu");
-	}
 
     public void LoadScene(string menu){
 		SceneManager.LoadScene(menu);
@@ -153,7 +170,6 @@ public class GameManager : MonoBehaviour
             deadCount++;
         }
         
-
         while (characterDeadTime > 0){
             characterDeadTime -= Time.deltaTime;
             await Task.Yield();
@@ -164,7 +180,6 @@ public class GameManager : MonoBehaviour
         AddHighScore(currentScore);
         AddLastSpeed(characterControllers.currentSpeed);
 
-        await Task.Yield();
         LoadScene("Result");
     }
 
@@ -185,10 +200,6 @@ public class GameManager : MonoBehaviour
     public float ShowLastSpeed(){
         return UserDataManager.Progress.LastSpeed;
     }
-
-    public bool ShowIsSoundMuted(){
-        return UserDataManager.Progress.IsSoundMuted;
-    }
     #endregion
 
     ///SET USER DATA MANAGER VALUE
@@ -200,11 +211,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddLastScore(int value){
-        UserDataManager.Progress.LastScore = value;
-        UserDataManager.Save();
-    }
-
     public void AddCurrentScore(int value){
         UserDataManager.Progress.CurrentScore = value;
         UserDataManager.Save();
@@ -214,14 +220,8 @@ public class GameManager : MonoBehaviour
         UserDataManager.Progress.LastSpeed = value;
         UserDataManager.Save();
     }
-
-    public void SetTutorialDone(){
-        UserDataManager.Progress.IsTutorialDone = true;
-        UserDataManager.Save();
-    }
-
-    public void SetSoundMuted(bool value){
-        UserDataManager.Progress.IsSoundMuted = value;
+    public void AddLastScore(int value){
+        UserDataManager.Progress.LastScore = value;
         UserDataManager.Save();
     }
     #endregion

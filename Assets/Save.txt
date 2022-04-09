@@ -1,8 +1,9 @@
 {
     "isTutorialDone": false,
     "isSoundMuted": false,
-    "speed": 140.0,
-    "currentScore": 2646,
-    "lastScore": 2646,
-    "highScore": 9724
+    "lastSpeed": 75.0,
+    "acceleration": 0,
+    "currentScore": 298,
+    "lastScore": 298,
+    "highScore": 298
 }

@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.18297002, g: 0, b: 0.38679248, a: 1}
+  m_Color: {r: 1, g: 0.69411767, b: 0.2784314, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -588,9 +588,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ac5867a11c3d1418ce1d251808baaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   characterDeadTime: 2
   changeCurvedWorldTime: 20
+  isDataLoaded: 0
   speedVal: 0
   scoreVal: 0
   speedGrade:
@@ -875,15 +876,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2144570655406377831, guid: 9c909628cbfb36e45a74c1c41ceb231d, type: 3}
       propertyPath: m_Color.b
-      value: 0.19535848
+      value: 0.19607843
       objectReference: {fileID: 0}
     - target: {fileID: 2144570655406377831, guid: 9c909628cbfb36e45a74c1c41ceb231d, type: 3}
       propertyPath: m_Color.g
-      value: 0.08319682
+      value: 0.08235294
       objectReference: {fileID: 0}
     - target: {fileID: 2144570655406377831, guid: 9c909628cbfb36e45a74c1c41ceb231d, type: 3}
       propertyPath: m_Color.r
-      value: 0.7735849
+      value: 0.77254903
       objectReference: {fileID: 0}
     - target: {fileID: 2144570655406377831, guid: 9c909628cbfb36e45a74c1c41ceb231d, type: 3}
       propertyPath: m_FontData.m_MaxSize
