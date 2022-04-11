@@ -21,7 +21,7 @@ public class FuzzyLogic : MonoBehaviour
     List<float> inferenceData = new List<float>();
     List<float> compositionData = new List<float>();
 
-    public void FuzzyTest(FuzzySet speedSet, FuzzySet scoreSet, float speed, float score){
+    public float FuzzyTest(FuzzySet speedSet, FuzzySet scoreSet, float speed, float score){
         ///FUZZIFIKASI
         Fuzzyfication(fuzzySetSpeed, speedSet.grade, speed);
         Fuzzyfication(fuzzySetSpeed, speedSet.triangle, speed);
@@ -48,7 +48,7 @@ public class FuzzyLogic : MonoBehaviour
         // }
 
         ///DEFUZZIFIKASI
-        print("Output : " + Defuzzification(inferenceData, compositionData));
+        return Defuzzification(inferenceData, compositionData);
     }
 
     public void Fuzzyfication(List<Shapes> varList, Shapes set, float value){

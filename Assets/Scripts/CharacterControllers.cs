@@ -72,7 +72,7 @@ public class CharacterControllers : MonoBehaviour
             CurrentSpeed < maxSpeed &&
             isDead != true){
             IncreaseSpeed();
-            increaseSpeedModulo *= 2;
+            increaseSpeedModulo += (int)(increaseSpeedModulo * 1.2);
         }
     }
 

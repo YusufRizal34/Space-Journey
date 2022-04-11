@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum AccelerationLevel{
-    VERYLOW,
     LOW,
     NORMAL,
     HIGH,
@@ -25,20 +24,20 @@ public class AccelerationController : MonoBehaviour
 
     [Header("ACCELERATION CONTROLLER")]
     #region ACCELERATION CONTROLLER
-    public float lowAcceleration;
-    public float normalAcceleration;
-    public float highAcceleration;
-    public float veryHighAcceleration;
+    public int lowAcceleration;
+    public int normalAcceleration;
+    public int highAcceleration;
+    public int veryHighAcceleration;
     #endregion
     
     [Header("FSM CONTROLLER")]
     #region FSM CONTROLLER
-    public int lowResult;
-    public int normalResult;
-    public int highResult;
+    public float lowResult;
+    public float normalResult;
+    public float highResult;
     #endregion
 
-    public float GetAccelerationLevel(int value){
+    public int GetAccelerationLevel(float value){
         AccelerationLevel level = AccelerationLevel.NORMAL;
 
         if(value <= lowResult){
@@ -50,11 +49,14 @@ public class AccelerationController : MonoBehaviour
         else if(value <= highResult){
             level = AccelerationLevel.HIGH;
         }
+        else{
+            level = AccelerationLevel.VERYHIGH;
+        }
 
         return ChangeAccelerationLevel(level);
     }
 
-    private float ChangeAccelerationLevel(AccelerationLevel level){
+    private int ChangeAccelerationLevel(AccelerationLevel level){
         if(level == AccelerationLevel.LOW){
             return lowAcceleration;
         }
@@ -64,7 +66,8 @@ public class AccelerationController : MonoBehaviour
         else if(level == AccelerationLevel.HIGH){
             return highAcceleration;
         }
-
-        return 1;
+        else{
+            return veryHighAcceleration;
+        }
     }
 }

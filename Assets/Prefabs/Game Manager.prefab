@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1584128598731645774}
   - component: {fileID: 1584128598731645775}
   - component: {fileID: 1584128598731645768}
+  - component: {fileID: 319573787}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584128598731645772}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -48,25 +49,26 @@ MonoBehaviour:
   type: 2
   characterDeadTime: 2
   changeCurvedWorldTime: 20
-  speedVal: 100
-  scoreVal: 800
+  isDataLoaded: 0
+  speedVal: 125
+  scoreVal: 600
   speedGrade:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 20
       value: 1
-      inSlope: -0.016666668
-      outSlope: -0.016666668
+      inSlope: -0.0125
+      outSlope: -0.0125
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 60
+      time: 100
       value: 0
-      inSlope: -0.016666668
-      outSlope: -0.016666668
+      inSlope: -0.0125
+      outSlope: -0.0125
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -79,28 +81,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 30
+      time: 70
       value: 0
-      inSlope: 0.05
-      outSlope: 0.05
+      inSlope: 0.025
+      outSlope: 0.025
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 50
+      time: 110
       value: 1
-      inSlope: 0.05
-      outSlope: -0.05
+      inSlope: 0.025
+      outSlope: -0.025
       tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 70
+      time: 150
       value: 0
-      inSlope: -0.05
-      outSlope: -0.05
+      inSlope: -0.025
+      outSlope: -0.025
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -113,19 +115,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 60
+      time: 120
       value: 0
-      inSlope: 0.025
-      outSlope: 0.025
+      inSlope: 0.0125
+      outSlope: 0.0125
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 100
+      time: 200
       value: 1
-      inSlope: 0.025
-      outSlope: 0.025
+      inSlope: 0.0125
+      outSlope: 0.0125
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -254,3 +256,22 @@ MonoBehaviour:
   low: 0
   moderate: 0.5
   high: 1
+--- !u!114 &319573787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584128598731645772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244fe1d011c6e234a93037122a17fdc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowAcceleration: 4
+  normalAcceleration: 6
+  highAcceleration: 8
+  veryHighAcceleration: 10
+  lowResult: 0.2
+  normalResult: 0.4
+  highResult: 0.6

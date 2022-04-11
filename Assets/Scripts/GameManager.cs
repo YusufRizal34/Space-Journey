@@ -97,11 +97,12 @@ public class GameManager : MonoBehaviour
     }
 
     private void SwitchCanvas(){
-        // UserDataManager.Remove();
+        
         switch(type){
             case CanvasType.SplashScreen :
+                UserData.Save();
                 loadingSlider = GameObject.FindWithTag("LoadingSlider").GetComponent<Slider>();
-                StartCoroutine(UserDataManager.LoadFromCloud(() => {
+                StartCoroutine(UserData.LoadFromDatabase(() => {
                     if(loadingSlider.value == 0) LoadScene("MainMenu");
                 }));
             break;
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
                 mainCamera = GameObject.FindWithTag("MainCamera").transform;
                 currentScoreText = GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 characterControllers = player.gameObject.GetComponent<CharacterControllers>();
+                characterControllers.acceleration = ShowAcceleration();
 		        gameCamera1 = mainCamera.gameObject.GetComponent<CinemachineVirtualCamera>();
                 gameCamera1.LookAt = characterControllers.transform;
                 gameCamera1.Follow = characterControllers.transform;
@@ -131,9 +133,12 @@ public class GameManager : MonoBehaviour
                     new Shapes(scoreTriangle, scoreTriangleCondition),
                     new Shapes(scoreRevGrade, scoreRevGradeCondition)
                 );
-                FuzzyLogic.Instance.FuzzyTest(speed, score, ShowLastSpeed(), ShowCurrentScore());
-                UserDataManager.Save(true);
-                // FuzzyLogic.Instance.FuzzyTest(speed, score, speedVal, scoreVal);
+
+                float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(speed, score, ShowLastSpeed(), ShowCurrentScore());
+                // float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(speed, score, speedVal, scoreVal);
+                int acc = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
+                AddAcceleration(acc);
+                UserData.Save(true);
             break;
             default :
             break;
@@ -152,7 +157,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private async void Loading(){
+    public async void Loading(){
         while(loadingProgress > 0){
             loadingProgress -= 0.001f;
             loadingSlider.value = loadingProgress;
@@ -186,43 +191,52 @@ public class GameManager : MonoBehaviour
     ///GET USER DATA MANAGER VALUE
     #region GET USERDATA
     public int ShowHighScore(){
-        return UserDataManager.Progress.HighScore;
+        return UserData.Progress.HighScore;
     }
 
     public int ShowCurrentScore(){
-        return UserDataManager.Progress.CurrentScore;
+        return UserData.Progress.CurrentScore;
     }
 
     public int ShowLastScore(){
-        return UserDataManager.Progress.LastScore;
+        return UserData.Progress.LastScore;
     }
 
     public float ShowLastSpeed(){
-        return UserDataManager.Progress.LastSpeed;
+        return UserData.Progress.LastSpeed;
+    }
+
+    public int ShowAcceleration(){
+        return UserData.Progress.Acceleration;
     }
     #endregion
 
     ///SET USER DATA MANAGER VALUE
     #region SET USERDATA
     public void AddHighScore(int value){
-        if(value > UserDataManager.Progress.HighScore){
-            UserDataManager.Progress.HighScore = value;
-            UserDataManager.Save();
+        if(value > UserData.Progress.HighScore){
+            UserData.Progress.HighScore = value;
+            UserData.Save();
         }
     }
 
     public void AddCurrentScore(int value){
-        UserDataManager.Progress.CurrentScore = value;
-        UserDataManager.Save();
+        UserData.Progress.CurrentScore = value;
+        UserData.Save();
     }
 
     public void AddLastSpeed(float value){
-        UserDataManager.Progress.LastSpeed = value;
-        UserDataManager.Save();
+        UserData.Progress.LastSpeed = value;
+        UserData.Save();
     }
     public void AddLastScore(int value){
-        UserDataManager.Progress.LastScore = value;
-        UserDataManager.Save();
+        UserData.Progress.LastScore = value;
+        UserData.Save();
+    }
+    
+    public void AddAcceleration(int value){
+        UserData.Progress.Acceleration = value;
+        UserData.Save();
     }
     #endregion
 }
