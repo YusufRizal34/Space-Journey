@@ -1876,5 +1876,13 @@ PrefabInstance:
       propertyPath: type
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1584128598731645774, guid: c55e4e24c6ba2164b8f1e5874aa508a5, type: 3}
+      propertyPath: scoreVal
+      value: 423
+      objectReference: {fileID: 0}
+    - target: {fileID: 1584128598731645774, guid: c55e4e24c6ba2164b8f1e5874aa508a5, type: 3}
+      propertyPath: speedVal
+      value: 98
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c55e4e24c6ba2164b8f1e5874aa508a5, type: 3}
