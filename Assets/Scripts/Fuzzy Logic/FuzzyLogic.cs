@@ -21,15 +21,15 @@ public class FuzzyLogic : MonoBehaviour
     List<float> inferenceData = new List<float>();
     List<float> compositionData = new List<float>();
 
-    public float FuzzyTest(FuzzySet speedSet, FuzzySet scoreSet, float speed, float score){
+    public float FuzzyTest(Shapes[] speedSet, Shapes[] scoreSet, float speed, float score){
         ///FUZZIFIKASI
-        Fuzzyfication(fuzzySetSpeed, speedSet.grade, speed);
-        Fuzzyfication(fuzzySetSpeed, speedSet.triangle, speed);
-        Fuzzyfication(fuzzySetSpeed, speedSet.revGrade, speed);
+        for(int i = 0; i < speedSet.Length; i++){
+            Fuzzyfication(fuzzySetSpeed, speedSet[i], speed);
+        }
 
-        Fuzzyfication(fuzzySetScore, scoreSet.grade, score);
-        Fuzzyfication(fuzzySetScore, scoreSet.triangle, score);
-        Fuzzyfication(fuzzySetScore, scoreSet.revGrade, score);
+        for(int i = 0; i < speedSet.Length; i++){
+            Fuzzyfication(fuzzySetScore, scoreSet[i], score);
+        }
 
         ///INFERENSI + COMPOSITION
         for(int i = 0; i < fuzzySetSpeed.Count; i++){
@@ -38,20 +38,14 @@ public class FuzzyLogic : MonoBehaviour
                 compositionData.Add(Rules.Instance.RulesCheck(fuzzySetSpeed[i].condition, fuzzySetScore[j].condition));
             }
         }
-
-        ///PRINT INFERENSI + DECOMPOSISI
-        // for(int j = 0; j < inferenceData.Count; j++){
-        //     print(inferenceData[j]);
-        // }
-        // for(int j = 0; j < compositionData.Count; j++){
-        //     print(compositionData[j]);
-        // }
-
+        
         ///DEFUZZIFIKASI
         return Defuzzification(inferenceData, compositionData);
     }
 
     public void Fuzzyfication(List<Shapes> varList, Shapes set, float value){
+        // if(value < set.shape.keys[0].time || value > set.shape.keys[set.shape.length - 1].time) return;
+        // else varList.Add(set);
         if(set.shape.length > 2){
             if(value < set.shape.keys[0].time || value > set.shape.keys[2].time) return;
             else varList.Add(set);
@@ -83,18 +77,6 @@ public class FuzzyLogic : MonoBehaviour
 
         result = numerator/denominator;
         return result;
-    }
-}
-
-public class FuzzySet{
-    public Shapes grade;
-    public Shapes triangle;
-    public Shapes revGrade;
-
-    public FuzzySet(Shapes grade, Shapes triangle, Shapes revGrade){
-        this.grade = grade;
-        this.triangle = triangle;
-        this.revGrade = revGrade;
     }
 }
 

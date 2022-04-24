@@ -44,19 +44,18 @@ public class GameManager : MonoBehaviour
     public float changeCurvedWorldTime = 20f;
     #endregion
 
-    [Header("DATA CONTROLLER")]
-    #region DATA CONTROLLER
-    public bool isDataLoaded = false;
-    #endregion
-
     [Header("UI CONTROLLER")]
     #region UI CONTROLLER
     private int currentScore;
+    private float score = 0;
     private float loadingProgress = 1;
+    private float t = 0.1f;
+    private bool isTutorialOpened;
 
     private Text highScoreText;
     private Text currentScoreText;
     private Slider loadingSlider;
+    public GameObject tutorialPanel;
     #endregion
 
     [Header("CUTSCENE CONTROLLER")]
@@ -68,19 +67,8 @@ public class GameManager : MonoBehaviour
     public float speedVal;
     public float scoreVal;
 
-    public AnimationCurve speedGrade;
-    public Condition speedGradeCondition;
-    public AnimationCurve speedTriangle;
-    public Condition speedTriangleCondition;
-    public AnimationCurve speedRevGrade;
-    public Condition speedRevGradeCondition;
-
-    public AnimationCurve scoreGrade;
-    public Condition scoreGradeCondition;
-    public AnimationCurve scoreTriangle;
-    public Condition scoreTriangleCondition;
-    public AnimationCurve scoreRevGrade;
-    public Condition scoreRevGradeCondition;
+    public Shapes[] fuzzySetSpeed;
+    public Shapes[] fuzzySetScore;
     #endregion
 
     private void Awake(){
@@ -93,46 +81,41 @@ public class GameManager : MonoBehaviour
     }
 
     private void SwitchCanvas(){
-        
+        UserDataManager.Load();
         switch(type){
             case CanvasType.SplashScreen :
-                UserDataManager.Load();
                 loadingSlider = GameObject.FindWithTag("LoadingSlider").GetComponent<Slider>();
             break;
             case CanvasType.MainMenu :
                 highScoreText       =  GameObject.FindWithTag("HighScore").GetComponent<Text>();
                 highScoreText.text  = ShowHighScore().ToString();
+                isTutorialOpened    = false;
+                tutorialPanel.SetActive(isTutorialOpened);
             break;
             case CanvasType.PlayScene :
                 player = FindObjectOfType<CharacterControllers>().gameObject;
                 mainCamera = GameObject.FindWithTag("MainCamera").transform;
                 currentScoreText = GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 characterControllers = player.gameObject.GetComponent<CharacterControllers>();
-                characterControllers.acceleration = ShowAcceleration();
+                
+                if(ShowAcceleration() != null){
+                    characterControllers.acceleration = ShowAcceleration();
+                }
+    
 		        gameCamera1 = mainCamera.gameObject.GetComponent<CinemachineVirtualCamera>();
                 gameCamera1.LookAt = characterControllers.transform;
                 gameCamera1.Follow = characterControllers.transform;
             break;
             case CanvasType.ResultScene :
                 currentScoreText        =  GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
-                // currentScoreText.text   =  ShowCurrentScore().ToString();
-                FuzzySet speed = new FuzzySet(
-                    new Shapes(speedGrade, speedGradeCondition),
-                    new Shapes(speedTriangle, speedTriangleCondition),
-                    new Shapes(speedRevGrade, speedRevGradeCondition)
-                );
-                FuzzySet score = new FuzzySet(
-                    new Shapes(scoreGrade, scoreGradeCondition),
-                    new Shapes(scoreTriangle, scoreTriangleCondition),
-                    new Shapes(scoreRevGrade, scoreRevGradeCondition)
-                );
+                currentScoreText.text   =  ShowCurrentScore().ToString();
 
-                // float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(speed, score, ShowLastSpeed(), ShowCurrentScore());
-                float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(speed, score, speedVal, scoreVal);
+                float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, ShowLastSpeed(), ShowCurrentScore());
+                // float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, speedVal, scoreVal);
                 int acc = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
-                print(fuzzyValue + "," + acc);
-                // AddAcceleration(acc);
-                // UserDataManager.Save();
+                AddAcceleration(acc);
+                // print(fuzzyValue + " & " + acc);
+                UserDataManager.Save();
             break;
             default :
             break;
@@ -149,6 +132,14 @@ public class GameManager : MonoBehaviour
                 currentScoreText.text = currentScore.ToString();
                 currentScore = (int)player.transform.position.z;
             }
+        }
+    }
+
+    private void FixedUpdate() {
+        if(type == CanvasType.ResultScene){
+            score = Mathf.Clamp(Mathf.Lerp(0, ShowCurrentScore(), t), 0, ShowCurrentScore());
+            t += 0.5f * Time.deltaTime;
+            currentScoreText.text = ((int)score).ToString();
         }
     }
 
@@ -181,6 +172,11 @@ public class GameManager : MonoBehaviour
         AddLastSpeed(characterControllers.currentSpeed);
 
         LoadScene("Result");
+    }
+
+    public void OpenTutorial(){
+        isTutorialOpened = !isTutorialOpened;
+        tutorialPanel.SetActive(isTutorialOpened);
     }
 
     ///GET USER DATA MANAGER VALUE

@@ -41,7 +41,11 @@ public class CharacterControllers : MonoBehaviour
         get{ return acceleration; }
         set{ acceleration = (float)Math.Round(Mathf.Clamp(value, 1, 5), 2); }
     }
-    [SerializeField] private int increaseSpeedModulo = 100; ///DEFAUL 100
+    [SerializeField] private int increaseSpeedModulo = 100;
+    public int IncreaseSpeedModulo{
+        get{ return increaseSpeedModulo; }
+        set{ increaseSpeedModulo = (int)Mathf.Clamp(value, 10, 1500); }
+    }
     private float movingTransition = 0;
 
     [Header("CHARACTER DEAD")]
@@ -72,7 +76,7 @@ public class CharacterControllers : MonoBehaviour
             CurrentSpeed < maxSpeed &&
             isDead != true){
             IncreaseSpeed();
-            increaseSpeedModulo += (int)(increaseSpeedModulo * 1.2);
+            IncreaseSpeedModulo += (int)IncreaseSpeedModulo;
         }
     }
 
@@ -81,10 +85,10 @@ public class CharacterControllers : MonoBehaviour
     }
 
     private void MovementController(){
-    #if UNITY_EDITOR || UNITY_STANDALONE
+    // #if UNITY_EDITOR || UNITY_STANDALONE
         //USING KEYBOARD
         KeyboardMovement();
-    #endif
+    // #endif
 
         Vector3 moving = new Vector3((currentXPosition - transform.position.x) * dodgeSpeed, 0, currentSpeed);
         transform.Translate(moving * Time.deltaTime, Space.World);
