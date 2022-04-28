@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     private Text highScoreText;
     private Text currentScoreText;
+    private Text accelerationText;
     private Slider loadingSlider;
     public GameObject tutorialPanel;
     #endregion
@@ -98,9 +99,8 @@ public class GameManager : MonoBehaviour
                 currentScoreText = GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 characterControllers = player.gameObject.GetComponent<CharacterControllers>();
                 
-                if(ShowAcceleration() != null){
-                    characterControllers.acceleration = ShowAcceleration();
-                }
+                if(ShowAcceleration() != 0) characterControllers.acceleration = ShowAcceleration();
+                else characterControllers.acceleration = 4f;
     
 		        gameCamera1 = mainCamera.gameObject.GetComponent<CinemachineVirtualCamera>();
                 gameCamera1.LookAt = characterControllers.transform;
@@ -108,13 +108,13 @@ public class GameManager : MonoBehaviour
             break;
             case CanvasType.ResultScene :
                 currentScoreText        =  GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
+                accelerationText        =  GameObject.FindWithTag("Acceleration").GetComponent<Text>();
                 currentScoreText.text   =  ShowCurrentScore().ToString();
 
                 float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, ShowLastSpeed(), ShowCurrentScore());
                 // float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, speedVal, scoreVal);
                 int acc = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
                 AddAcceleration(acc);
-                // print(fuzzyValue + " & " + acc);
                 UserDataManager.Save();
             break;
             default :
@@ -172,6 +172,10 @@ public class GameManager : MonoBehaviour
         AddLastSpeed(characterControllers.currentSpeed);
 
         LoadScene("Result");
+    }
+
+    public void ChangeAccelerationText(string text){
+        accelerationText.text = text;
     }
 
     public void OpenTutorial(){

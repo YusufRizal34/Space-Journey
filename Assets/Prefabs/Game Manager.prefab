@@ -46,11 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ac5867a11c3d1418ce1d251808baaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  type: 3
   characterDeadTime: 2
   changeCurvedWorldTime: 20
-  speedVal: 74
-  scoreVal: 302
+  tutorialPanel: {fileID: 0}
+  speedVal: 82
+  scoreVal: 2199
   fuzzySetSpeed:
   - shape:
       serializedVersion: 2
@@ -143,17 +144,17 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: -0.0025
-        outSlope: -0.0025
+        inSlope: -0.0005
+        outSlope: -0.0005
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 400
+        time: 2000
         value: 0
-        inSlope: -0.0025
-        outSlope: -0.0025
+        inSlope: -0.0005
+        outSlope: -0.0005
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -166,28 +167,28 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 350
+        time: 1800
         value: 0
-        inSlope: 0.006666667
-        outSlope: 0.006666667
+        inSlope: 0.00083333335
+        outSlope: 0.00083333335
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 500
+        time: 3000
         value: 1
-        inSlope: 0.006666667
-        outSlope: -0.0028571428
+        inSlope: 0.00083333335
+        outSlope: -0.00066666666
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 850
+        time: 4500
         value: 0
-        inSlope: -0.0028571428
-        outSlope: -0.0028571428
+        inSlope: -0.00066666666
+        outSlope: -0.00066666666
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -200,18 +201,18 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 800
+        time: 4000
         value: 0
-        inSlope: 0.005
-        outSlope: 0.005
+        inSlope: 0.001
+        outSlope: 0.001
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1000
+        time: 5000
         value: 1
-        inSlope: 0.005
+        inSlope: 0.001
         outSlope: 0
         tangentMode: 69
         weightedMode: 0

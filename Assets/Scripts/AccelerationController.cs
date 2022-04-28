@@ -42,15 +42,19 @@ public class AccelerationController : MonoBehaviour
 
         if(value <= lowResult){
             level = AccelerationLevel.LOW;
+            GameManager.Instance.ChangeAccelerationText("Low");
         }
         else if(value <= normalResult){
             level = AccelerationLevel.NORMAL;
+            GameManager.Instance.ChangeAccelerationText("Normal");
         }
         else if(value <= highResult){
             level = AccelerationLevel.HIGH;
+            GameManager.Instance.ChangeAccelerationText("High");
         }
         else{
             level = AccelerationLevel.VERYHIGH;
+            GameManager.Instance.ChangeAccelerationText("Very High");
         }
 
         return ChangeAccelerationLevel(level);

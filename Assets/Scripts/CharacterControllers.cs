@@ -17,14 +17,6 @@ public class CharacterControllers : MonoBehaviour
         RIGHT,
     }
 
-    public bool IsInvisible{ get; set; }
-    public bool IsShielded{ get; set; }
-
-    public bool isCutScene;
-
-	[Header("ANDROID CONTROLLER")]
-
-
     [Header("MOVEMENT CONTROLLER")]
     public float initialSpeed; ///DEFAULT 20
     public float currentSpeed;
@@ -42,11 +34,12 @@ public class CharacterControllers : MonoBehaviour
         set{ acceleration = (float)Math.Round(Mathf.Clamp(value, 1, 5), 2); }
     }
     [SerializeField] private int increaseSpeedModulo = 100;
+    [SerializeField] private int maxIncreaseSpeedModulo = 1500;
+
     public int IncreaseSpeedModulo{
         get{ return increaseSpeedModulo; }
-        set{ increaseSpeedModulo = (int)Mathf.Clamp(value, 10, 1500); }
+        set{ increaseSpeedModulo = (int)Mathf.Clamp(value, 10, maxIncreaseSpeedModulo); }
     }
-    private float movingTransition = 0;
 
     [Header("CHARACTER DEAD")]
     [HideInInspector] public bool isDead = false;
@@ -75,8 +68,8 @@ public class CharacterControllers : MonoBehaviour
             (int)transform.position.z != 0 &&
             CurrentSpeed < maxSpeed &&
             isDead != true){
-            IncreaseSpeed();
-            IncreaseSpeedModulo += (int)IncreaseSpeedModulo;
+                IncreaseSpeed();
+                IncreaseSpeedModulo += (int)IncreaseSpeedModulo;
         }
     }
 
