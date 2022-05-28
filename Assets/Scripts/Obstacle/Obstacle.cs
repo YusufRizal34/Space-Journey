@@ -6,7 +6,6 @@ public class Obstacle : MonoBehaviour, IInteractable
 {
     public void Interaction()
     {
-        var player = FindObjectOfType<CharacterControllers>();
         GameManager.Instance.PlayerDead();
     }
 }

@@ -39,7 +39,7 @@ public class Rules : MonoBehaviour
             return moderate;
         }
         else if(speed is Condition.HIGH && score is Condition.LOW){
-            return moderate;
+            return low;
         }
         else if(speed is Condition.HIGH && score is Condition.MODERATE){
             return high;

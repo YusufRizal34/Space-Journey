@@ -15,45 +15,32 @@ public class FuzzyLogic : MonoBehaviour
         }
     }
 
-    List<Shapes> fuzzySetSpeed = new List<Shapes>();
-    List<Shapes> fuzzySetScore = new List<Shapes>();
+    List<Shapes> speedSets = new List<Shapes>();
+    List<Shapes> scoreSets = new List<Shapes>();
+    List<float> aPredicate = new List<float>();
+    List<float> z = new List<float>();
 
-    List<float> inferenceData = new List<float>();
-    List<float> compositionData = new List<float>();
-
-    public float FuzzyTest(Shapes[] speedSet, Shapes[] scoreSet, float speed, float score){
-        ///FUZZIFIKASI
-        for(int i = 0; i < speedSet.Length; i++){
-            Fuzzyfication(fuzzySetSpeed, speedSet[i], speed);
+    public float FuzzyTest(Shapes[] speedData, Shapes[] scoreData, float speed, float score){
+        for(int i = 0; i < speedData.Length; i++){
+            Fuzzyfication(speedSets, speedData[i], speed);
         }
 
-        for(int i = 0; i < speedSet.Length; i++){
-            Fuzzyfication(fuzzySetScore, scoreSet[i], score);
+        for(int i = 0; i < scoreData.Length; i++){
+            Fuzzyfication(scoreSets, scoreData[i], score);
         }
 
-        ///INFERENSI + COMPOSITION
-        for(int i = 0; i < fuzzySetSpeed.Count; i++){
-            for(int j = 0; j < fuzzySetScore.Count; j++){
-                inferenceData.Add(Inference(fuzzySetSpeed[i], fuzzySetScore[j], speed, score));
-                compositionData.Add(Rules.Instance.RulesCheck(fuzzySetSpeed[i].condition, fuzzySetScore[j].condition));
+        for(int i = 0; i < speedSets.Count; i++){
+            for(int j = 0; j < scoreSets.Count; j++){
+                aPredicate.Add(Inference(speedSets[i], scoreSets[j], speed, score));
+                z.Add(Rules.Instance.RulesCheck(speedSets[i].condition, scoreSets[j].condition));
             }
         }
-        
-        ///DEFUZZIFIKASI
-        return Defuzzification(inferenceData, compositionData);
+        return Defuzzification(aPredicate, z);
     }
 
     public void Fuzzyfication(List<Shapes> varList, Shapes set, float value){
-        // if(value < set.shape.keys[0].time || value > set.shape.keys[set.shape.length - 1].time) return;
-        // else varList.Add(set);
-        if(set.shape.length > 2){
-            if(value < set.shape.keys[0].time || value > set.shape.keys[2].time) return;
-            else varList.Add(set);
-        }
-        else{
-            if(value < set.shape.keys[0].time || value > set.shape.keys[1].time) return;
-            else varList.Add(set);
-        }
+        if(value < set.shape.keys[0].time || value > set.shape.keys[set.shape.length - 1].time) return;
+        else varList.Add(set);
     }
 
     public float Implication(AnimationCurve shape, float crisp){

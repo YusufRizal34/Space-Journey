@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
     private Text accelerationText;
     private Slider loadingSlider;
     public GameObject tutorialPanel;
+    public Image arrow;
+    public Sprite[] arrowImage;
     #endregion
 
     [Header("CUTSCENE CONTROLLER")]
@@ -77,6 +79,10 @@ public class GameManager : MonoBehaviour
         SwitchCanvas();
     }
 
+    private void Start() {
+        UIStart();
+    }
+
     private void Update(){
         UIUpdate();
     }
@@ -89,14 +95,29 @@ public class GameManager : MonoBehaviour
             break;
             case CanvasType.MainMenu :
                 highScoreText       =  GameObject.FindWithTag("HighScore").GetComponent<Text>();
+            break;
+            case CanvasType.PlayScene :
+                player              = FindObjectOfType<CharacterControllers>().gameObject;
+                mainCamera          = GameObject.FindWithTag("MainCamera").transform;
+                currentScoreText    = GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
+            break;
+            case CanvasType.ResultScene :
+                currentScoreText        =  GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
+                accelerationText        =  GameObject.FindWithTag("Acceleration").GetComponent<Text>();
+            break;
+            default :
+            break;
+        }
+    }
+
+    private void UIStart(){
+        switch(type){
+            case CanvasType.MainMenu :
                 highScoreText.text  = ShowHighScore().ToString();
                 isTutorialOpened    = false;
                 tutorialPanel.SetActive(isTutorialOpened);
             break;
             case CanvasType.PlayScene :
-                player = FindObjectOfType<CharacterControllers>().gameObject;
-                mainCamera = GameObject.FindWithTag("MainCamera").transform;
-                currentScoreText = GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
                 characterControllers = player.gameObject.GetComponent<CharacterControllers>();
                 
                 if(ShowAcceleration() != 0) characterControllers.acceleration = ShowAcceleration();
@@ -107,13 +128,20 @@ public class GameManager : MonoBehaviour
                 gameCamera1.Follow = characterControllers.transform;
             break;
             case CanvasType.ResultScene :
-                currentScoreText        =  GameObject.FindWithTag("CurrentScore").GetComponent<Text>();
-                accelerationText        =  GameObject.FindWithTag("Acceleration").GetComponent<Text>();
                 currentScoreText.text   =  ShowCurrentScore().ToString();
 
                 float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, ShowLastSpeed(), ShowCurrentScore());
                 // float fuzzyValue = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, speedVal, scoreVal);
                 int acc = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
+                if(acc > ShowAcceleration()){
+                    arrow.sprite = arrowImage[0];
+                }
+                else if(acc < ShowAcceleration()){
+                    arrow.sprite = arrowImage[1];
+                }
+                else{
+                    arrow.sprite = arrowImage[2];
+                }
                 AddAcceleration(acc);
                 UserDataManager.Save();
             break;
@@ -155,22 +183,22 @@ public class GameManager : MonoBehaviour
 		SceneManager.LoadScene(menu);
 	}
     
-    public async void PlayerDead(){
+    public void PlayerDead(){
         if(deadCount < 1){
-            characterControllers.Dead();
             deadCount++;
-        }
-        
-        while (characterDeadTime > 0){
-            characterDeadTime -= Time.deltaTime;
-            await Task.Yield();
-        }
-        
-        AddLastScore(currentScore);
-        AddCurrentScore(currentScore);
-        AddHighScore(currentScore);
-        AddLastSpeed(characterControllers.currentSpeed);
+            characterControllers.Dead();
 
+            AddLastScore(currentScore);
+            AddCurrentScore(currentScore);
+            AddHighScore(currentScore);
+            AddLastSpeed(characterControllers.currentSpeed);
+            
+            StartCoroutine(DeadTime(characterDeadTime));
+        }
+    }
+
+    public IEnumerator DeadTime(float time){
+        yield return new WaitForSeconds(time);
         LoadScene("Result");
     }
 

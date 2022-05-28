@@ -50,17 +50,21 @@ MonoBehaviour:
   characterDeadTime: 2
   changeCurvedWorldTime: 20
   tutorialPanel: {fileID: 0}
-  speedVal: 82
-  scoreVal: 2199
+  arrow: {fileID: 0}
+  arrowImage:
+  - {fileID: 21300000, guid: e28d848151c4f0c468ad932b850c9350, type: 3}
+  - {fileID: 21300000, guid: 82a2163665feb0747826d430e0f3a515, type: 3}
+  speedVal: 160
+  scoreVal: 8000
   fuzzySetSpeed:
   - shape:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 20
+        time: 50
         value: 1
-        inSlope: -0.02
-        outSlope: -0.02
+        inSlope: -0.05
+        outSlope: -0.05
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
@@ -68,8 +72,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 70
         value: 0
-        inSlope: -0.02
-        outSlope: -0.02
+        inSlope: -0.05
+        outSlope: -0.05
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -167,10 +171,10 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 1800
+        time: 1000
         value: 0
-        inSlope: 0.00083333335
-        outSlope: 0.00083333335
+        inSlope: 0.0005
+        outSlope: 0.0005
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
@@ -178,21 +182,30 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 3000
         value: 1
-        inSlope: 0.00083333335
-        outSlope: -0.00066666666
+        inSlope: 0.0005
+        outSlope: 0
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 4500
+        time: 6000
+        value: 1
+        inSlope: -0
+        outSlope: -0.0005
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 8000
         value: 0
-        inSlope: -0.00066666666
-        outSlope: -0.00066666666
+        inSlope: -0.0005
+        outSlope: -0.0005
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
@@ -201,7 +214,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 4000
+        time: 7000
         value: 0
         inSlope: 0.001
         outSlope: 0.001
@@ -210,7 +223,7 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 5000
+        time: 8000
         value: 1
         inSlope: 0.001
         outSlope: 0
