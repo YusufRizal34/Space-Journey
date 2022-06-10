@@ -19,7 +19,8 @@ public class Rules : MonoBehaviour
     public float moderate = 0.5f;
     public float high = 1f;
 
-    public float RulesCheck(Condition speed, Condition score){
+    public float Composition(Condition speed, Condition score){
+        // print(speed + "," + score);
         if(speed is Condition.LOW && score is Condition.LOW){
             return low;
         }

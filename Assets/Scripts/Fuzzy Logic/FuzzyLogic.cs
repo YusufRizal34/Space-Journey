@@ -21,6 +21,7 @@ public class FuzzyLogic : MonoBehaviour
     List<float> z = new List<float>();
 
     public float FuzzyTest(Shapes[] speedData, Shapes[] scoreData, float speed, float score){
+        print(speed + "," + score);
         for(int i = 0; i < speedData.Length; i++){
             Fuzzyfication(speedSets, speedData[i], speed);
         }
@@ -31,10 +32,18 @@ public class FuzzyLogic : MonoBehaviour
 
         for(int i = 0; i < speedSets.Count; i++){
             for(int j = 0; j < scoreSets.Count; j++){
-                aPredicate.Add(Inference(speedSets[i], scoreSets[j], speed, score));
-                z.Add(Rules.Instance.RulesCheck(speedSets[i].condition, scoreSets[j].condition));
+                aPredicate.Add(Implication(speedSets[i], scoreSets[j], speed, score));
+                z.Add(Rules.Instance.Composition(speedSets[i].condition, scoreSets[j].condition));
+                print(speedSets[i].condition + "," + scoreSets[j].condition);
             }
         }
+
+        for(int i = 0; i < aPredicate.Count; i++){
+            print(aPredicate[i] + "," + z[i]);
+            // print(z[i]);
+            // print(aPredicate[i] + "," + z[i]);
+        }
+
         return Defuzzification(aPredicate, z);
     }
 
@@ -43,17 +52,17 @@ public class FuzzyLogic : MonoBehaviour
         else varList.Add(set);
     }
 
-    public float Implication(AnimationCurve shape, float crisp){
+    public float Evaluation(AnimationCurve shape, float crisp){
         return shape.Evaluate(crisp);
     }
 
-    public float Inference(Shapes shape1, Shapes shape2, float crisp1, float crisp2){
-        float result = Mathf.Min(Implication(shape1.shape, crisp1), Implication(shape2.shape, crisp2));
+    public float Implication(Shapes shape1, Shapes shape2, float crisp1, float crisp2){
+        float result = Mathf.Min(Evaluation(shape1.shape, crisp1), Evaluation(shape2.shape, crisp2));
+        // print(Evaluation(shape1.shape, crisp1) + "," + Evaluation(shape2.shape, crisp2));
         return result;
     }
 
     public float Defuzzification(List<float> aPredicate, List<float> z){
-        float result = 0;
         float numerator = 0;
         float denominator = 0;
         
@@ -62,7 +71,9 @@ public class FuzzyLogic : MonoBehaviour
             denominator += aPredicate[i];
         }
 
-        result = numerator/denominator;
+        print(numerator + "/" + denominator);
+
+        float result = numerator/denominator;
         return result;
     }
 }

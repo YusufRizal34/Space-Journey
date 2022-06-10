@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1584128598731645774}
   - component: {fileID: 1584128598731645775}
   - component: {fileID: 1584128598731645768}
-  - component: {fileID: 319573787}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -56,6 +55,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 82a2163665feb0747826d430e0f3a515, type: 3}
   speedVal: 160
   scoreVal: 8000
+  isDebugMode: 0
   fuzzySetSpeed:
   - shape:
       serializedVersion: 2
@@ -271,22 +271,3 @@ MonoBehaviour:
   low: 0
   moderate: 0.5
   high: 1
---- !u!114 &319573787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1584128598731645772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 244fe1d011c6e234a93037122a17fdc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowAcceleration: 4
-  normalAcceleration: 6
-  highAcceleration: 8
-  veryHighAcceleration: 10
-  lowResult: 0.2
-  normalResult: 0.4
-  highResult: 0.6

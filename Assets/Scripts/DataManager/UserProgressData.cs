@@ -5,12 +5,14 @@ public class UserProgressData
 {
     public float lastSpeed;
     public int acceleration;
+    public AccelerationLevel level = AccelerationLevel.NORMAL;
 
     public int currentScore;
     public int lastScore;
     public int highScore;
     
     public int Acceleration{ get{ return acceleration; } set{ acceleration = value; } }
+    public AccelerationLevel AccelerationLevel{ get{ return level; } set{ level = value; } }
     public float LastSpeed{ get{ return lastSpeed; } set{ lastSpeed = value; } }
 
     public int LastScore{ get{ return lastScore; } set{ lastScore = value; } }
