@@ -71,8 +71,8 @@ public class GameManager : MonoBehaviour
     public float scoreVal;
     public bool isDebugMode = false;
 
-    public Shapes[] fuzzySetSpeed;
-    public Shapes[] fuzzySetScore;
+    public Shapes2[] fuzzySetSpeed;
+    public Shapes2[] fuzzySetScore;
     #endregion
 
     private void Awake(){
@@ -133,9 +133,24 @@ public class GameManager : MonoBehaviour
                 if(isDebugMode){
                     currentScore            = (int)scoreVal;
                     currentScoreText.text   = scoreVal.ToString();
-                    float fuzzyValue        = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, speedVal, scoreVal);
-                    int acc                 = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
+                    // float fuzzyValue2        = FuzzyLogic2.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, speedVal, scoreVal);
+                    // int acc                 = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
                     // print(fuzzyValue);
+
+                    Shapes[] fuzzySetSpeeds = {
+                        new Shapes(new RevGrade(50,70), Condition.LOW),
+                        new Shapes(new Triangle(60,110,160), Condition.MODERATE),
+                        new Shapes(new Grade(150,200), Condition.HIGH)
+                    };
+                    Shapes[] fuzzySetScores = {
+                        new Shapes(new RevGrade(0,2000), Condition.LOW),
+                        new Shapes(new Trapezoid(1000,3000,6000, 8000), Condition.MODERATE),
+                        new Shapes(new Grade(7000,8000), Condition.HIGH)
+                    };
+                    
+                    float fuzzyValue    = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeeds, fuzzySetScores, speedVal, scoreVal);
+                    int acc             = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
+                    print(fuzzyValue);
 
                     ChangeAccelerationText();
 
@@ -154,8 +169,20 @@ public class GameManager : MonoBehaviour
                 else{
                     currentScore            = ShowCurrentScore();
                     currentScoreText.text   = ShowCurrentScore().ToString();
-                    float fuzzyValue        = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeed, fuzzySetScore, ShowLastSpeed(), ShowCurrentScore());
-                    int acc                 = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
+
+                    Shapes[] fuzzySetSpeeds = {
+                        new Shapes(new RevGrade(50,70), Condition.LOW),
+                        new Shapes(new Triangle(60,110,160), Condition.MODERATE),
+                        new Shapes(new Grade(150,200), Condition.HIGH)
+                    };
+                    Shapes[] fuzzySetScores = {
+                        new Shapes(new RevGrade(0,2000), Condition.LOW),
+                        new Shapes(new Trapezoid(1000,3000,6000, 8000), Condition.MODERATE),
+                        new Shapes(new Grade(7000,8000), Condition.HIGH)
+                    };
+                    
+                    float fuzzyValue    = FuzzyLogic.Instance.FuzzyTest(fuzzySetSpeeds, fuzzySetScores, ShowLastSpeed(), ShowCurrentScore());
+                    int acc             = AccelerationController.Instance.GetAccelerationLevel(fuzzyValue);
                     // print(fuzzyValue);
 
                     ChangeAccelerationText();

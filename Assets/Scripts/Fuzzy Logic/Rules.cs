@@ -15,9 +15,9 @@ public class Rules : MonoBehaviour
         }
     }
 
-    public float low = 0f;
-    public float moderate = 0.5f;
-    public float high = 1f;
+    public float low;
+    public float moderate;
+    public float high;
 
     public float Composition(Condition speed, Condition score){
         // print(speed + "," + score);
